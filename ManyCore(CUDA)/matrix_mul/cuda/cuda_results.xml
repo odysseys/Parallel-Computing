@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<TestRun>
+  <FailedTests>
+    <FailedTest id="1">
+      <Name>N4cuda5TestsE::test_cases</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>tests.cpp</File>
+        <Line>65</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: TestFrameWork::diff(answers, result, TestFrameWork::matrix_dim[i], TestFrameWork::matrix_dim[i]) &lt; EPS
+</Message>
+    </FailedTest>
+  </FailedTests>
+  <SuccessfulTests></SuccessfulTests>
+  <Statistics>
+    <Tests>1</Tests>
+    <FailuresTotal>1</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>1</Failures>
+  </Statistics>
+</TestRun>

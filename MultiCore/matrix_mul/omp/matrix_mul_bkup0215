@@ -1,0 +1,68 @@
+/*
+
+    Copyright (C) 2011  Abhinav Jauhri (abhinav.jauhri@gmail.com), Carnegie Mellon University - Silicon Valley 
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include <omp.h>
+#include "matrix_mul.h"
+#include <algorithm>
+namespace omp
+{
+  void transpose (float *m1, float *m1T, unsigned int dim)
+  {
+    unsigned int i, j;
+#pragma omp parallel for schedule(dynamic)
+    for (i = 0; i < dim; i++)
+    {
+      for (j = 0; j < dim; j++)
+      {
+        m1T[j * dim + i] = m1[i * dim + j];
+      }
+    }
+  }
+
+  void
+  matrix_multiplication(float *sq_matrix_1, float *sq_matrix_2, float *sq_matrix_result, unsigned int sq_dimension )
+  {
+    float *sq_matrix_2T;
+    sq_matrix_2T = new float[sq_dimension * sq_dimension];
+    transpose(sq_matrix_2, sq_matrix_2T, sq_dimension);
+   // float one_point = 0;
+  float one_point[sq_dimension];
+//#pragma omp parallel for reduction( +: one_point) schedule(dynamic)
+#pragma omp parallel for private(one_point) schedule(dynamic)
+    for (unsigned int i = 0; i < sq_dimension; i++) 
+     {	
+	for(unsigned int j = 0; j < sq_dimension; j++) 
+	  {
+    //sq_matrix_result[i*sq_dimension + j] = 0;
+	    one_point[j] = 0;
+	    for (unsigned int k = 0; k < sq_dimension; k++)
+            {
+	      //sq_matrix_result[i*sq_dimension + j] += sq_matrix_1[i*sq_dimension + k] * sq_matrix_2[k*sq_dimension + j];
+	     // one_point += sq_matrix_1[i*sq_dimension + k] * sq_matrix_2T[j*sq_dimension + k];
+		one_point[j]+=sq_matrix_1[i*sq_dimension+k]*sq_matrix_2T[j*sq_dimension+k];
+            }
+          //  sq_matrix_result[i*sq_dimension + j] = one_point;
+	  }
+	for (unsigned int m=0; m<sq_dimension;m++)
+{
+sq_matrix_result[i*sq_dimension+m]=one_point[m];
+}
+      }// End of parallel region
+  }
+  
+} //namespace omp 

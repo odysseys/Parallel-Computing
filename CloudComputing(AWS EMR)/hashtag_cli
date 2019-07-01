@@ -1,0 +1,8 @@
+aws emr create-cluster --name "Test cluster hashtagsim" --ami-version 2.4.11 \
+--service-role EMR_DefaultRole --ec2-attributes InstanceProfile=EMR_EC2_DefaultRole \
+--log-uri s3://clkuo.log-uri.hashtagsim --enable-debugging \
+--instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=c1.medium \
+InstanceGroupType=CORE,InstanceCount=4,InstanceType=c1.medium \
+--steps Type=CUSTOM_JAR,Jar=s3://clkuo.fastcode/18645-proj3-0.1-latest.jar,\
+Args=["-input","s3://clkuo.tweets1m/tweets1m.txt","-output","s3://clkuo.output/hashtagsim1m","-program","hashtagsim","-tmpdir","tmp"] \
+--auto-terminate

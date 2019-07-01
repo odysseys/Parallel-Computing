@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.2
+Created-By: 1.7.0_111-mockbuild_2016_07_22_09_14-b00 (Oracle Corporati
+ on)
+Built-By: chunliak
+Main-Class: mapred.main.Entry
+Implementation-Version: 0.1-b1241
+Built-Date: 2017-04-12 19:36:43
+
